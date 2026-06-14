@@ -32,19 +32,19 @@ export default function Couple() {
               <h2 className="text-center text-3xl md:text-5xl font-bold text-[#6b5647] mb-6">
                 I Nyoman
                 <br />
-                Pandu Satya
+                Pandu Satya Narayana, S.Tr.Tra.
               </h2>
 
               <p className="text-center text-[#7a6758] text-lg">
-                Putra Kedua dari pasangan
+                Putra Ketiga dari pasangan
               </p>
 
               <div className="mt-4 text-center text-[#7a6758]">
-                <p>I Putu Eka Putra</p>
+                <p>I Ketut Gede Sumaguna</p>
 
                 <p className="italic text-2xl my-2">&</p>
 
-                <p>Putu Astri</p>
+                <p>Ni Nyoman Sudiati, S.E., M.M.</p>
               </div>
             </div>
           </div>
@@ -67,7 +67,7 @@ export default function Couple() {
               <h2 className="text-center text-3xl md:text-5xl font-bold text-[#6b5647] mb-6">
                 Ida Ayu
                 <br />
-                Sintya Pradistya
+                Sintya Pradistya S.Tr.Tra.
               </h2>
 
               <p className="text-center text-[#7a6758] text-lg">

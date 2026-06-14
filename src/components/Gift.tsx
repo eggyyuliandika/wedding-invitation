@@ -15,9 +15,9 @@ export default function Gift() {
         <div className="bg-neutral-100 rounded-2xl p-8">
           <p className="font-semibold">Bank BCA</p>
 
-          <h3 className="text-2xl font-bold my-4">1234567890</h3>
+          <h3 className="text-2xl font-bold my-4">6485292491</h3>
 
-          <p>A/N Ida Ayu Sintya Pradistya</p>
+          <p>A/N I Nyoman Pandu Satya Narayana</p>
 
           <button
             onClick={copyAccount}
