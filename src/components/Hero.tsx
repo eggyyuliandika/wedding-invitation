@@ -1,5 +1,5 @@
 import Image from "next/image";
-import GuestName from "@/components/GuestName";
+// import GuestName from "@/components/GuestName";
 
 export default function Hero() {
   return (
@@ -43,9 +43,7 @@ export default function Hero() {
 
         <p className="mt-4 text-2xl text-[#7a6758]">30 Juni 2027</p>
 
-        <div className="mt-8">
-          <GuestName />
-        </div>
+        <div className="mt-8">{/* <GuestName /> */}</div>
 
         <a
           href="#quotesection"
