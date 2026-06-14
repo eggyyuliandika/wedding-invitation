@@ -2,14 +2,9 @@ import Image from "next/image";
 
 const events = [
   {
-    title: "Pawiwahan",
-    date: "Kamis, 07 Mei 2026",
-    time: "08:00 - 15:00 WITA",
-  },
-  {
     title: "Resepsi",
-    date: "Jumat, 08 Mei 2026",
-    time: "17:00 WITA - Selesai",
+    date: "Selasa, 25 Agustus 2026",
+    time: "11:00 WITA - 17:00 WITA",
   },
 ];
 
@@ -65,7 +60,7 @@ export default function Event() {
         </div>
 
         {/* Card Resepsi */}
-        <div className="relative z-20 bg-[#f8f6f4] rounded-[28px] shadow-lg p-8 md:p-12 max-w-[92%] mx-auto -mt-10">
+        {/* <div className="relative z-20 bg-[#f8f6f4] rounded-[28px] shadow-lg p-8 md:p-12 max-w-[92%] mx-auto -mt-10">
           <h3 className="text-3xl md:text-5xl font-semibold text-[#7a6758]">
             {events[1].title}
           </h3>
@@ -79,7 +74,7 @@ export default function Event() {
           <p className="text-[#7a6758] text-xl md:text-3xl mt-4">
             {events[1].time}
           </p>
-        </div>
+        </div> */}
       </div>
     </section>
   );

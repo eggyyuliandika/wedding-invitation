@@ -41,7 +41,7 @@ export default function Hero() {
           Dayu & Pandu
         </h1>
 
-        <p className="mt-4 text-2xl text-[#7a6758]">30 Juni 2027</p>
+        <p className="mt-4 text-2xl text-[#7a6758]">25 Agustus 2026</p>
 
         <div className="mt-8">{/* <GuestName /> */}</div>
 
