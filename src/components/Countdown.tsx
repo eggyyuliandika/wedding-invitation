@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export default function Countdown() {
-  const targetDate = new Date("2027-06-30T09:00:00").getTime();
+  const targetDate = new Date("2026-08-25T11:00:00").getTime();
 
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -29,12 +29,12 @@ export default function Countdown() {
   }, [targetDate]);
 
   return (
-    <section id="countdown" className="py-20 bg-[#f3efef]">
-      <h2 className="text-center text-3xl font-bold mb-10">
+    <section id="countdown" className=" bg-[#f8f6f4]">
+      <h2 className="text-center text-3xl font-bold text-[#6b5647] mb-10">
         Menuju Hari Bahagia
       </h2>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5 max-w-4xl mx-auto px-4">
+      <div className="flex justify-center gap-3 px-4">
         {[
           ["Hari", timeLeft.days],
           ["Jam", timeLeft.hours],
@@ -43,11 +43,12 @@ export default function Countdown() {
         ].map(([label, value]) => (
           <div
             key={label}
-            className="bg-white shadow-lg rounded-2xl p-6 text-center"
+            className="bg-[#6b5647] rounded-2xl w-20 h-20 md:w-24 md:h-24 flex flex-col items-center justify-center shadow-md"
           >
-            <div className="text-4xl font-bold">{value}</div>
-
-            <div className="text-gray-500">{label}</div>
+            <div className="text-2xl md:text-3xl font-bold text-white">
+              {String(value).padStart(2, "0")}
+            </div>
+            <div className="text-white/70 text-xs mt-1">{label}</div>
           </div>
         ))}
       </div>
