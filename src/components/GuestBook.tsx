@@ -10,32 +10,6 @@ type Wish = {
   createdAt: string;
 };
 
-const INITIAL_WISHES: Wish[] = [
-  {
-    id: 1,
-    name: "Oyke & Schieva",
-    message:
-      "Happy wedding. Semoga selalu berbahagia dan harmonis. Langgeng selama-lamanya 🙏",
-    attendance: "hadir",
-    createdAt: "1 bulan lalu",
-  },
-  {
-    id: 2,
-    name: "Rifan Nurwahidi",
-    message: "Selamat menempuh hidup baru Sheva & Diah",
-    attendance: "hadir",
-    createdAt: "1 bulan lalu",
-  },
-  {
-    id: 3,
-    name: "Rachel",
-    message:
-      "Hi kak! temen dance aku waktu SMK! happy banget liat kak ica yang sekarang. Happy Wedding yah Kak Ica, maaf dari aku berhalangan hadir, tapi semoga langgeng dan bahagia terus Kak Ica dan suami 😢💕🙏",
-    attendance: "tidak_hadir",
-    createdAt: "1 bulan lalu",
-  },
-];
-
 const attendanceOptions = [
   { value: "hadir", label: "✅ Hadir (Accept with pleasure)" },
   { value: "tidak_hadir", label: "❌ Tidak Hadir (Decline with regret)" },
@@ -62,33 +36,60 @@ const attendanceBadge = (attendance: Wish["attendance"]) => {
   );
 };
 
-export default function GuestBook() {
-  const [wishes, setWishes] = useState<Wish[]>(INITIAL_WISHES);
+interface Props {
+  guestName?: string;
+}
+
+export default function GuestBook({ guestName = "-" }: Props) {
+  const [wishes, setWishes] = useState<Wish[]>([]);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [attendance, setAttendance] = useState<Wish["attendance"]>("hadir");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!name.trim() || !message.trim()) {
       setError("Nama dan ucapan wajib diisi.");
       return;
     }
     setError("");
-    const newWish: Wish = {
-      id: Date.now(),
-      name: name.trim(),
-      message: message.trim(),
-      attendance,
-      createdAt: "Baru saja",
-    };
-    setWishes([newWish, ...wishes]);
-    setName("");
-    setMessage("");
-    setAttendance("hadir");
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setLoading(true);
+
+    try {
+      // Kirim ke Google Sheets
+      await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          message: message.trim(),
+          attendance,
+          guestName,
+        }),
+      });
+
+      // Tambahkan ke list lokal
+      const newWish: Wish = {
+        id: Date.now(),
+        name: name.trim(),
+        message: message.trim(),
+        attendance,
+        createdAt: "Baru saja",
+      };
+      setWishes([newWish, ...wishes]);
+      setName("");
+      setMessage("");
+      setAttendance("hadir");
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch (err) {
+      setError("Gagal mengirim ucapan. Coba lagi.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -110,7 +111,6 @@ export default function GuestBook() {
 
         {/* Wish Count */}
         <div className="flex items-center gap-2 mb-6">
-          <span className="text-[#6b5647] text-lg"></span>
           <span className="text-[#6b5647] font-semibold text-base">
             {wishes.length} Ucapan
           </span>
@@ -118,7 +118,6 @@ export default function GuestBook() {
 
         {/* Form Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-[#e8ddd5] p-6 mb-8">
-          {/* Name */}
           <input
             type="text"
             placeholder="Nama (name)"
@@ -127,7 +126,6 @@ export default function GuestBook() {
             className="w-full border border-[#ddd3c9] rounded-xl px-4 py-3 text-[#6b5647] placeholder-[#c0aa98] text-sm focus:outline-none focus:ring-2 focus:ring-[#6b5647]/30 mb-4 bg-[#fdfcfb] transition"
           />
 
-          {/* Message */}
           <textarea
             placeholder="Ucapan (wishes)"
             value={message}
@@ -136,7 +134,6 @@ export default function GuestBook() {
             className="w-full border border-[#ddd3c9] rounded-xl px-4 py-3 text-[#6b5647] placeholder-[#c0aa98] text-sm focus:outline-none focus:ring-2 focus:ring-[#6b5647]/30 mb-4 bg-[#fdfcfb] resize-none transition"
           />
 
-          {/* Attendance */}
           <select
             value={attendance}
             onChange={(e) =>
@@ -151,15 +148,18 @@ export default function GuestBook() {
             ))}
           </select>
 
-          {/* Error */}
           {error && <p className="text-red-400 text-xs mb-3">{error}</p>}
 
-          {/* Submit */}
           <button
             onClick={handleSubmit}
-            className="w-full sm:w-auto bg-[#6b5647] hover:bg-[#5a4639] active:scale-95 text-white font-semibold px-8 py-3 rounded-xl text-sm transition-all duration-200"
+            disabled={loading}
+            className="w-full sm:w-auto bg-[#6b5647] hover:bg-[#5a4639] active:scale-95 disabled:opacity-60 text-white font-semibold px-8 py-3 rounded-xl text-sm transition-all duration-200"
           >
-            {submitted ? "✓ Terkirim!" : "Kirim (Send)"}
+            {loading
+              ? "Mengirim..."
+              : submitted
+                ? "✓ Terkirim!"
+                : "Kirim (Send)"}
           </button>
 
           {submitted && (
@@ -183,7 +183,7 @@ export default function GuestBook() {
                 {attendanceBadge(wish.attendance)}
               </div>
               <p className="text-[#a0856e] text-xs flex items-center gap-1 mb-3">
-                <span>🕐</span> {wish.createdAt}
+                🕐 {wish.createdAt}
               </p>
               <p className="text-[#5c4b3d] text-sm leading-relaxed">
                 {wish.message}

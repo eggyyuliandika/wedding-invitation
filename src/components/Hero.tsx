@@ -2,9 +2,12 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import GuestName from "@/components/GuestName";
 
-export default function Hero() {
+interface Props {
+  guestName?: string;
+}
+
+export default function Hero({ guestName = "Tamu Undangan" }: Props) {
   const [opened, setOpened] = useState(false);
 
   return (
@@ -35,7 +38,7 @@ export default function Hero() {
         <div className="absolute top-40 right-16 w-6 h-6 rounded-full bg-white/40 blur-sm" />
         <div className="absolute bottom-24 left-24 w-3 h-3 rounded-full bg-white/60 blur-sm" />
 
-        {/* Cover content — naik ke tengah-bawah */}
+        {/* Cover content */}
         <div
           className={`absolute inset-0 flex flex-col items-center justify-center px-6 text-center transition-all duration-500 ${
             opened ? "opacity-0 pointer-events-none" : "opacity-100"
@@ -46,7 +49,7 @@ export default function Hero() {
           </p>
 
           <h2 className="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg mb-3">
-            {/* <GuestName /> */}Surya
+            {guestName}
           </h2>
 
           <p className="text-white/70 text-sm mb-10 max-w-xs leading-relaxed">
@@ -57,8 +60,7 @@ export default function Hero() {
             onClick={() => setOpened(true)}
             className="flex items-center justify-center gap-2 bg-[#c9a87c]/80 hover:bg-[#c9a87c] active:scale-95 backdrop-blur-sm text-white font-semibold px-10 py-3 rounded-xl text-sm transition-all duration-200 shadow-lg w-full max-w-xs"
           >
-        
-            Buka Undangan
+            🏠 Buka Undangan
           </button>
         </div>
       </div>
@@ -85,10 +87,7 @@ export default function Hero() {
       >
         <p className="text-[#8a7666] text-xl mb-3">The Wedding of</p>
         <h1 className="text-4xl md:text-7xl font-bold text-[#6b5647] font-serif italic">
-          Dayu Sintya
-          <br />&
-          <br />
-          Pandu Satya
+          Dayu Sintya & Pandu Satya
         </h1>
         <p className="mt-4 text-xl text-[#7a6758]">25 Agustus 2026</p>
       </div>

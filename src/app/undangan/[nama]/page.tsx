@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import Hero from "@/components/Hero";
 import Countdown from "@/components/Countdown";
 import Couple from "@/components/Couple";
@@ -9,13 +8,15 @@ import GuestBook from "@/components/GuestBook";
 import MusicPlayer from "@/components/MusicPlayer";
 import FloatingNav from "@/components/FloatingNav";
 import QuoteSection from "@/components/QuoteSection";
+import { Suspense } from "react";
+import { use } from "react";
 
-interface Props {
+type Props = {
   params: Promise<{ nama: string }>;
-}
+};
 
-export default async function UndanganPage({ params }: Props) {
-  const { nama } = await params;
+export default function UndanganPage({ params }: Props) {
+  const { nama } = use(params);
   const guestName = decodeURIComponent(nama).replace(/-/g, " ");
 
   return (
