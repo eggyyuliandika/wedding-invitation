@@ -37,11 +37,14 @@ export default function Hero() {
       <div className="relative z-10 px-6 pb-16 text-center">
         <p className="text-[#8a7666] text-xl mb-3">The Wedding Of</p>
 
-        <h1 className="text-5xl md:text-7xl font-bold text-[#6b5647]">
-          Dayu & Pandu
+        <h1 className="text-3xl md:text-7xl font-bold text-[#6b5647]">
+          Dayu Sintya
+          <br />
+          & <br />
+          Pandu Satya
         </h1>
 
-        <p className="mt-4 text-2xl text-[#7a6758]">25 Agustus 2026</p>
+        <p className="mt-4 text-xl text-[#7a6758]">25 Agustus 2026</p>
 
         <div className="mt-8">{/* <GuestName /> */}</div>
 

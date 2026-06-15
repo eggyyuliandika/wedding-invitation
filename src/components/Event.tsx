@@ -4,7 +4,7 @@ const events = [
   {
     title: "Resepsi",
     date: "Selasa, 25 Agustus 2026",
-    time: "11:00 WITA - 17:00 WITA",
+    time: "11:00 - 17:00 WITA",
   },
 ];
 
