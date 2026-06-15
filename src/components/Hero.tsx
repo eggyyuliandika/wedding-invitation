@@ -87,7 +87,9 @@ export default function Hero({ guestName = "Tamu Undangan" }: Props) {
       >
         <p className="text-[#8a7666] text-xl mb-3">The Wedding of</p>
         <h1 className="text-4xl md:text-7xl font-bold text-[#6b5647] font-serif italic">
-          Dayu Sintya & Pandu Satya
+          Dayu Sintya <br />
+          & <br />
+          Pandu Satya
         </h1>
         <p className="mt-4 text-xl text-[#7a6758]">25 Agustus 2026</p>
       </div>
