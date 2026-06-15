@@ -2,14 +2,14 @@
 
 import Image from "next/image";
 import { useState } from "react";
-// import GuestName from "@/components/GuestName";
+import GuestName from "@/components/GuestName";
 
 export default function Hero() {
   const [opened, setOpened] = useState(false);
 
   return (
     <section id="home" className="relative min-h-screen bg-[#f8f6f4]">
-      {/* Hero Image — full screen saat belum dibuka, 60vh setelah dibuka */}
+      {/* Hero Image */}
       <div
         className={`relative w-full overflow-hidden transition-all duration-700 ${
           opened ? "h-[60vh]" : "h-screen"
@@ -23,7 +23,7 @@ export default function Hero() {
           className="object-cover object-top"
         />
 
-        {/* Overlay — gelap sebelum dibuka, hilang setelah dibuka */}
+        {/* Overlay */}
         <div
           className={`absolute inset-0 transition-all duration-700 ${
             opened ? "bg-black/0" : "bg-black/40"
@@ -35,9 +35,9 @@ export default function Hero() {
         <div className="absolute top-40 right-16 w-6 h-6 rounded-full bg-white/40 blur-sm" />
         <div className="absolute bottom-24 left-24 w-3 h-3 rounded-full bg-white/60 blur-sm" />
 
-        {/* Cover content — muncul sebelum dibuka, di bagian bawah foto */}
+        {/* Cover content — naik ke tengah-bawah */}
         <div
-          className={`absolute inset-0 flex flex-col items-center justify-end pb-16 px-6 text-center transition-all duration-500 ${
+          className={`absolute inset-0 flex flex-col items-center justify-center px-6 text-center transition-all duration-500 ${
             opened ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
         >
@@ -49,20 +49,21 @@ export default function Hero() {
             {/* <GuestName /> */}Surya
           </h2>
 
-          <p className="text-white/70 text-sm mb-8 max-w-xs leading-relaxed">
+          <p className="text-white/70 text-sm mb-10 max-w-xs leading-relaxed">
             Mohon maaf apabila ada kesalahan penulisan nama/gelar
           </p>
 
           <button
             onClick={() => setOpened(true)}
-            className="flex items-center gap-2 bg-[#c9a87c]/80 hover:bg-[#c9a87c] active:scale-95 backdrop-blur-sm text-white font-semibold px-10 py-3 rounded-xl text-sm transition-all duration-200 shadow-lg w-full max-w-xs justify-center"
+            className="flex items-center justify-center gap-2 bg-[#c9a87c]/80 hover:bg-[#c9a87c] active:scale-95 backdrop-blur-sm text-white font-semibold px-10 py-3 rounded-xl text-sm transition-all duration-200 shadow-lg w-full max-w-xs"
           >
+        
             Buka Undangan
           </button>
         </div>
       </div>
 
-      {/* Wave — muncul setelah dibuka */}
+      {/* Wave */}
       <div
         className={`relative -mt-16 transition-opacity duration-700 ${
           opened ? "opacity-100" : "opacity-0"
@@ -76,7 +77,7 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* Content bawah — muncul setelah dibuka */}
+      {/* Content bawah */}
       <div
         className={`relative z-10 px-6 pb-16 text-center transition-opacity duration-700 delay-300 ${
           opened ? "opacity-100" : "opacity-0"
@@ -84,7 +85,8 @@ export default function Hero() {
       >
         <p className="text-[#8a7666] text-xl mb-3">The Wedding of</p>
         <h1 className="text-4xl md:text-7xl font-bold text-[#6b5647] font-serif italic">
-          Dayu Sintya <br />&
+          Dayu Sintya
+          <br />&
           <br />
           Pandu Satya
         </h1>
