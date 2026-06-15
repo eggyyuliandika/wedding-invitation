@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type Wish = {
   id: number;
@@ -47,7 +47,27 @@ export default function GuestBook({ guestName = "-" }: Props) {
   const [attendance, setAttendance] = useState<Wish["attendance"]>("hadir");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingWishes, setLoadingWishes] = useState(true);
   const [error, setError] = useState("");
+
+  // Load data dari Google Sheets saat pertama buka
+  useEffect(() => {
+    const fetchWishes = async () => {
+      try {
+        const res = await fetch("/api/rsvp");
+        const data = await res.json();
+        if (data.success) {
+          setWishes(data.wishes);
+        }
+      } catch (err) {
+        console.error("Gagal load ucapan:", err);
+      } finally {
+        setLoadingWishes(false);
+      }
+    };
+
+    fetchWishes();
+  }, []);
 
   const handleSubmit = async () => {
     if (!name.trim() || !message.trim()) {
@@ -58,7 +78,6 @@ export default function GuestBook({ guestName = "-" }: Props) {
     setLoading(true);
 
     try {
-      // Kirim ke Google Sheets
       await fetch("/api/rsvp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -70,7 +89,7 @@ export default function GuestBook({ guestName = "-" }: Props) {
         }),
       });
 
-      // Tambahkan ke list lokal
+      // Tambahkan ke list lokal langsung tanpa reload
       const newWish: Wish = {
         id: Date.now(),
         name: name.trim(),
@@ -112,7 +131,7 @@ export default function GuestBook({ guestName = "-" }: Props) {
         {/* Wish Count */}
         <div className="flex items-center gap-2 mb-6">
           <span className="text-[#6b5647] font-semibold text-base">
-            {wishes.length} Ucapan
+            {loadingWishes ? "Memuat..." : `${wishes.length} Ucapan`}
           </span>
         </div>
 
@@ -170,27 +189,41 @@ export default function GuestBook({ guestName = "-" }: Props) {
         </div>
 
         {/* Wishes List */}
-        <div className="space-y-4">
-          {wishes.map((wish) => (
-            <div
-              key={wish.id}
-              className="bg-white rounded-2xl border border-[#e8ddd5] px-6 py-5 shadow-sm"
-            >
-              <div className="flex flex-wrap items-center gap-2 mb-1">
-                <span className="font-bold text-[#6b5647] text-sm md:text-base">
-                  {wish.name}
-                </span>
-                {attendanceBadge(wish.attendance)}
-              </div>
-              <p className="text-[#a0856e] text-xs flex items-center gap-1 mb-3">
-                🕐 {wish.createdAt}
+        {loadingWishes ? (
+          <div className="text-center py-10">
+            <p className="text-[#a0856e] text-sm animate-pulse">
+              Memuat ucapan...
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {wishes.length === 0 ? (
+              <p className="text-center text-[#a0856e] text-sm py-6">
+                Belum ada ucapan. Jadilah yang pertama! 🙏
               </p>
-              <p className="text-[#5c4b3d] text-sm leading-relaxed">
-                {wish.message}
-              </p>
-            </div>
-          ))}
-        </div>
+            ) : (
+              wishes.map((wish) => (
+                <div
+                  key={wish.id}
+                  className="bg-white rounded-2xl border border-[#e8ddd5] px-6 py-5 shadow-sm"
+                >
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="font-bold text-[#6b5647] text-sm md:text-base">
+                      {wish.name}
+                    </span>
+                    {attendanceBadge(wish.attendance)}
+                  </div>
+                  <p className="text-[#a0856e] text-xs flex items-center gap-1 mb-3">
+                    🕐 {wish.createdAt}
+                  </p>
+                  <p className="text-[#5c4b3d] text-sm leading-relaxed">
+                    {wish.message}
+                  </p>
+                </div>
+              ))
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
