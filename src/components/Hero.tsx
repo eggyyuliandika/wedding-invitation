@@ -78,7 +78,10 @@ export default function Hero({ guestName }: Props) {
           </p>
 
           <button
-            onClick={() => setOpened(true)}
+            onClick={() => {
+              setOpened(true);
+              window.dispatchEvent(new Event("invitation:opened"));
+            }}
             className="group relative flex items-center justify-center gap-2 bg-transparent hover:bg-[#c9a87c] text-white font-semibold px-10 py-4 rounded-full text-sm tracking-[0.15em] uppercase transition-all duration-500 shadow-lg w-full max-w-xs border-2 border-white/70 backdrop-blur-md active:scale-95"
           >
             <span>Buka Undangan</span>
