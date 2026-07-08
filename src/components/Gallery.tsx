@@ -14,30 +14,24 @@ const photos = [
   "/images/image8.png",
   "/images/image9.png",
   "/images/image10.png",
+  "/images/image11.png",
+  "/images/image12.png",
+  "/images/image13.png",
+  "/images/image14.png",
+  "/images/image15.png",
+  "/images/image16.png",
 ];
 
-// Layout khusus untuk mobile (grid 3 kolom)
-const layoutsMobile = [
-  "col-span-2 row-span-2",
-  "col-span-1 row-span-1",
-  "col-span-1 row-span-1",
-  "col-span-1 row-span-1",
-  "col-span-2 row-span-1",
-  "col-span-1 row-span-1",
-  "col-span-1 row-span-1",
-  "col-span-2 row-span-1",
-];
-
-// Layout untuk desktop (grid 4 kolom) — sama seperti sebelumnya
-const layoutsDesktop = [
-  "sm:col-span-2 sm:row-span-2",
-  "sm:col-span-1 sm:row-span-1",
-  "sm:col-span-1 sm:row-span-2",
-  "sm:col-span-2 sm:row-span-1",
-  "sm:col-span-1 sm:row-span-2",
-  "sm:col-span-1 sm:row-span-1",
-  "sm:col-span-2 sm:row-span-1",
-  "sm:col-span-1 sm:row-span-1",
+// Tinggi bervariasi biar terlihat dinamis, seperti masonry Pinterest
+const heights = [
+  "h-64", // besar
+  "h-48",
+  "h-56",
+  "h-44",
+  "h-60",
+  "h-48",
+  "h-52",
+  "h-64",
 ];
 
 export default function Gallery() {
@@ -88,10 +82,10 @@ export default function Gallery() {
           <div className="w-10 h-[1px] bg-[#c9a87c] mx-auto mt-4" />
         </div>
 
+        {/* True masonry pakai CSS columns — tidak akan ada celah kosong */}
         <div
           className={`
-            grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-4 auto-rows-[100px] sm:auto-rows-[120px]
-            grid-flow-row-dense
+            columns-2 sm:columns-3 gap-2 sm:gap-4
             transition-all duration-500
             ${visible ? "opacity-100 scale-100" : "opacity-0 scale-95"}
           `}
@@ -100,14 +94,14 @@ export default function Gallery() {
             <button
               key={`${photo}-${index}`}
               onClick={() => setSelectedPhoto(photo)}
-              className={`group relative overflow-hidden rounded-xl sm:rounded-2xl ${layoutsMobile[index]} ${layoutsDesktop[index]}`}
+              className={`group relative block w-full overflow-hidden rounded-xl sm:rounded-2xl mb-2 sm:mb-4 break-inside-avoid ${heights[index]}`}
             >
               <Image
                 src={photo}
                 alt="gallery"
                 fill
                 className="object-cover object-center group-hover:scale-110 transition duration-700"
-                sizes="(max-width: 640px) 33vw, 25vw"
+                sizes="(max-width: 640px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
             </button>
